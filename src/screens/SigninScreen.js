@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
     Form,
     Button,
@@ -16,6 +16,24 @@ const Signin = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
+
+    useEffect(() => {
+        const handleLoggedIn = async (e) => {
+            if (currentUser) {
+                try {
+                    setError('');
+                    setLoading(true);
+                    navigate('/dashboard');
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+
+        handleLoggedIn();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     async function handleSubmit(e) {
         e.preventDefault();
