@@ -38,7 +38,7 @@ const Settings = () => {
             <div style={{ marginTop: '25px', width: '100%'}}>
                 <Card>
                     <Card.Body>
-                        <div style={{fontSize: '24px'}} className="devices-title">
+                        <div style={{fontSize: '24px', fontWeight: 'bold'}} className="devices-title">
                             Devices
                         </div>
                         <div style={{fontSize: '18x', marginTop: '12px'}} className="devices-list">
