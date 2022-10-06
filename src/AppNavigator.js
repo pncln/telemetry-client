@@ -1,27 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AuthNavigator } from './navigation/AuthNavigator';
-import { Context as AuthContext } from './contexts/AuthContext';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
+import HomeScreen from './screens/HomeScreen';
 import SigninScreen from './screens/SigninScreen';
-
-const router = createBrowserRouter([
-    {
-        path: '',
-        element: (
-            <>Hi there</>
-        )
-    },
-    {
-        path: "/signin",
-        element: <AuthNavigator />
-    }
-])
+import DashScreen from './screens/DashScreen';
+import { AuthProvider } from './contexts/AuthContext';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 export const AppNavigator = () => {
-    const { state: authState } = useContext(AuthContext);
     // const [ isLoading, setIsLoading] = useState(true);
 
     return (
-        <RouterProvider router={router} />
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route index element={<HomeScreen />} />
+                    <Route path="/signin" element={<SigninScreen />} />
+                    <Route path="/dashboard" element={<DashScreen />} />
+                    <Route path="*" element={<HomeScreen />} />
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
     )
 }

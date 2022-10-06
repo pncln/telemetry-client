@@ -1,60 +1,47 @@
-import createDataContext from './createDataContext'
-import teleApi from '../apis/teleapi'
+import React, { useContext, useState, useEffect } from 'react';
+import auth from '../apis/firebase'
 
-const authReducer = (state, action) => {
-    switch (action.type) {
-        case 'auth':
-            return { ...state, errorMessage: '', token: action.payload, isLogged: true}
-        case 'signout':
-            return { ...state, token: '', isLogged: false}
-        case 'fetch_data':
-            return { ...state, data: action.payload}
-        case 'clear_error_message':
-            return { ...state, errorMessage: '', modalVisible: false}
-        case 'add_error_message':
-            return { ...state, errorMessage: action.payload}
-        default:
-            return state
+const AuthContext = React.createContext();
+
+export function useAuth() {
+    return useContext(AuthContext)
+
+}
+
+export function AuthProvider({ children }) {
+    const [currentUser, setCurrentUser] = useState();
+    const [loading, setLoading] = useState(true);
+
+    function signup(email, password) {
+        return auth.createUserWithEmailAndPassword(email, password);
     }
-}
 
-const clearErrorMessage = dispatch => () => {
-    dispatch({ type: 'clear_error_message'})
-}
-
-const signin = dispatch => async ({ email, password }) => {
-    try {
-        const response = await teleApi.post('/users/login', { email, password })
-        dispatch({ type: 'auth', payload: response.date.token})
-    } catch (e) {
-        dispatch({ type: 'add_error_message', payload: 'Something went wrong here'})
+    function signin(email, password) {
+        return auth.signInWithEmailAndPassword(email, password);
     }
-}
 
-const fetchData = dispatch => async ({ token }) => {
-    try {
-        const response = await teleApi.get('/users/me', {}, { 
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+    function signout() {
+        return auth.signOut();
+    }
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            setCurrentUser(user);
+            setLoading(false);
         })
-        dispatch({ type: 'fetch_data', payload: response.data})
-    } catch (e) {
-        dispatch({ type: 'add_error_message', payload: 'Cannot fetch, error'})
-    }
-}
+        return unsubscribe
+    }, []);
 
-const signout = dispatch => async () => {
-    dispatch({ type: 'signout' })
-}
+    const value = {
+        currentUser,
+        signup,
+        signin,
+        signout
+    };
 
-export const { Provider, Context } = createDataContext(
-    authReducer,
-    { signin, signout, clearErrorMessage, fetchData },
-    { 
-        token: null,
-        errorMessage: '', 
-        isLogged: false,
-        date: null
-    }
-)
+    return (
+        <AuthContext.Provider value={value}>
+            {!loading && children }
+        </AuthContext.Provider>
+    );
+};
