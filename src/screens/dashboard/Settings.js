@@ -41,8 +41,8 @@ const Settings = () => {
                         <div style={{fontSize: '24px'}} className="devices-title">
                             Devices
                         </div>
-                        <div style={{fontSize: '18px', marginTop: '12px'}} className="devices-list">
-                            <Table striped bordered hover>
+                        <div style={{fontSize: '18x', marginTop: '12px'}} className="devices-list">
+                            <Table striped bordered hover style={{fontSize: '18x'}}>
                                 <thead>
                                     <tr>
                                     <th>#</th>
