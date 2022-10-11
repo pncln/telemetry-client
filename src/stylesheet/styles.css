@@ -84,3 +84,10 @@ html, body {
     background-size: cover;
     background-position: center;
 }
+
+.div-chart {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    margin-top: 15px;
+}
