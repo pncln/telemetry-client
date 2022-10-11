@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap'
 import { doc, onSnapshot, collection, getDoc, getDocs, query } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore , connectFirestoreEmulator} from "firebase/firestore";
 import Chart from "react-apexcharts";
 
 const firebaseConfig = {
@@ -17,6 +17,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+connectFirestoreEmulator(db, 'localhost', 8080);
 
 const Home = () => {
   const [lab1, setLab1] = useState(['']);

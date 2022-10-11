@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { connectAuthEmulator } from 'firebase/auth'
 
 firebase.initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -10,4 +11,5 @@ firebase.initializeApp({
     appId: process.env.REACT_APP_FIREBASE_APP_ID
 });
 const auth = firebase.auth();
+connectAuthEmulator(auth, "http://localhost:9099");
 export default auth;
