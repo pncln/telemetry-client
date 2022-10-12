@@ -22,13 +22,13 @@ connectFirestoreEmulator(db, 'localhost', 8080);
 const Home = () => {
   const [lab1, setLab1] = useState(['']);
   const [acc, setAcc] = useState(['']);
-  const [alt, setAlt] = useState(['']);
+  const [lat, setLat] = useState(['']);
   const [long, setLong] = useState(['']);
   const [loading, setLoading] = useState(true);
 
   let lab = [];
   let accuracy = [];
-  let altitude = [];
+  let latitude = [];
   let longitude = [];
   let q = {};
 
@@ -71,12 +71,12 @@ const Home = () => {
                   new Promise((resolve, reject) => {
                     console.log('DBG');
                     docSnap.forEach((snap) => {
-                      altitude.push(snap.data().altitude);
+                      latitude.push(snap.data().latitude);
                       longitude.push(snap.data().longitude);
                       accuracy.push(snap.data().accuracy);
                       setAcc(accuracy);
                       setLong(longitude);
-                      setAlt(altitude);
+                      setLat(latitude);
                       lab.push(snap.data().timestamp);
                       setLab1(lab);
                       
@@ -132,12 +132,12 @@ const Home = () => {
     };
 
     // =================================
-    let seriesAltitude = [{
-      name: "Altitude",
-      data: alt
+    let seriesLatitude = [{
+      name: "Latitude",
+      data: lat
     }];
 
-    let optionsAltitude = {
+    let optionsLatitude = {
       chart: {
         height: 350,
         type: 'line',
@@ -152,7 +152,7 @@ const Home = () => {
         curve: 'straight'
       },
       title: {
-        text: 'Altitude',
+        text: 'Latitude',
         align: 'left'
       },
       grid: {
@@ -212,8 +212,8 @@ const Home = () => {
                 width="960"
               />
               <Chart
-                options={optionsAltitude}
-                series={seriesAltitude}
+                options={optionsLatitude}
+                series={seriesLatitude}
                 type="line"
                 width="960"
               />
