@@ -10,9 +10,9 @@ const App = () => {
     return (
         <div className="root-container">
             <BrowserRouter>
-            <AuthProvider>
+                <AuthProvider>
                     <Routes>
-                        {/* <Route index element={<HomeScreen />} /> */}
+                        // <Route index element={<HomeScreen />} />
                         <Route index element={
                             <Navigate to="/signin" replace />
                         } />
@@ -23,7 +23,7 @@ const App = () => {
                             element={<Navigate to="/" replace />}
                         />
                     </Routes>
-            </AuthProvider>
+                </AuthProvider>
             </BrowserRouter>
         </div>
     );
