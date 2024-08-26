@@ -91,3 +91,11 @@ html, body {
     justify-content: center;
     margin-top: 15px;
 }
+
+.logs-box {
+    height: 500px;
+}
+
+.accordion-block {
+    padding: 2rem;
+}

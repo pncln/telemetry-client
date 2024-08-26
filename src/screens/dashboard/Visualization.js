@@ -2,24 +2,17 @@ import React, { useState, useEffect } from 'react';
 import {
     Card
 } from 'react-bootstrap'
-import { doc, onSnapshot, collection, getDoc, getDocs, query } from "firebase/firestore";
+import { doc, onSnapshot, collection, getDoc, getDocs, query, limit, orderBy } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore , connectFirestoreEmulator} from "firebase/firestore";
 import Chart from "react-apexcharts";
 
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-connectFirestoreEmulator(db, 'localhost', 8080);
+// const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app);
+// connectFirestoreEmulator(db, 'localhost', 8080);
 
-const Home = () => {
+const Visualization = ({transport}) => {
+  // console.log(transport)
   const [lab1, setLab1] = useState(['']);
   const [acc, setAcc] = useState(['']);
   const [lat, setLat] = useState(['']);
@@ -58,18 +51,24 @@ const Home = () => {
       //     }) 
       //   }
 
+      
+
       useEffect(() => {
         const func = async () => {
-          const docRef = collection(db, "geo-data");
+          // const db = children.db
+          // console.log(transport)
+          const docRef = collection(transport, "geo-data");
           new Promise((resolve, reject) => {
             
             resolve(
               new Promise(async (resolve, reject) => {
                 
-                const docSnap = await getDocs(docRef); 
+                // const docSnap = await getDocs(docRef); 
+                const docs = query(docRef, orderBy("timestamp", "desc"), limit(1000))
+                const docSnap = await getDocs(docs)
                 resolve( 
                   new Promise((resolve, reject) => {
-                    console.log('DBG');
+                    // console.log('DBG');
                     docSnap.forEach((snap) => {
                       latitude.push(snap.data().latitude);
                       longitude.push(snap.data().longitude);
@@ -77,7 +76,14 @@ const Home = () => {
                       setAcc(accuracy);
                       setLong(longitude);
                       setLat(latitude);
-                      lab.push(snap.data().timestamp);
+                      lab.push(new Date(snap.data().timestamp).toLocaleString(
+                        "en-US",
+                          {
+                            hour: "numeric",
+                            minute: "numeric",
+                            second: "numeric",
+                          }
+                      ));
                       setLab1(lab);
                       
                   });
@@ -122,7 +128,7 @@ const Home = () => {
       },
       grid: {
         row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          colors: ['#f3f3f3', 'transparent'],
           opacity: 0.5
         },
       },
@@ -157,7 +163,7 @@ const Home = () => {
       },
       grid: {
         row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          colors: ['#f3f3f3', 'transparent'],
           opacity: 0.5
         },
       },
@@ -192,7 +198,7 @@ const Home = () => {
       },
       grid: {
         row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          colors: ['#f3f3f3', 'transparent'],
           opacity: 0.5
         },
       },
@@ -204,7 +210,6 @@ const Home = () => {
     return (
         <div className='div-chart'>
             <Card width="100%">
-              
               { loading ? null : <><Chart
                 options={optionsAccuracy}
                 series={seriesAccuracy}
@@ -228,4 +233,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Visualization;

@@ -12,7 +12,7 @@ const App = () => {
             <BrowserRouter>
                 <AuthProvider>
                     <Routes>
-                        // <Route index element={<HomeScreen />} />
+                        {/* <Route index element={<HomeScreen />} /> */}
                         <Route index element={
                             <Navigate to="/signin" replace />
                         } />

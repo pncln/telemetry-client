@@ -11,18 +11,23 @@ const Settings = () => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Add New Device</Modal.Title>
+                <Modal.Title>Add New Source</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Device Name</Form.Label>
-                            <Form.Control type="text" placeholder="Jack's Android" />
+                            <Form.Label>API Name</Form.Label>
+                            <Form.Control type="text" placeholder="New Api" />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Address</Form.Label>
-                            <Form.Control type="text" placeholder="127.0.0.1:7829" />
+                            <Form.Control type="text" placeholder="127.0.0.1:7829/api/v1/" />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Secret Key</Form.Label>
+                            <Form.Control type="text" placeholder="hsaWhjx871Zmj8Ao1Akk" />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -39,22 +44,30 @@ const Settings = () => {
                 <Card>
                     <Card.Body>
                         <div style={{fontSize: '24px', fontWeight: 'bold'}} className="devices-title">
-                            Devices
+                            Sources
                         </div>
                         <div style={{fontSize: '18x', marginTop: '12px'}} className="devices-list">
                             <Table striped bordered hover style={{fontSize: '18x'}}>
                                 <thead>
                                     <tr>
                                     <th>#</th>
-                                    <th>Device Name</th>
-                                    <th>Activity</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Last Updated</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                    <td>1</td>
-                                    <td>Device_1</td>
-                                    <td>ONLINE</td>
+                                        <td>1</td>
+                                        <td>API/AzerSpace-1</td>
+                                        <td>OK</td>
+                                        <td>N/A</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>API/AzerSpace-2</td>
+                                        <td>OK</td>
+                                        <td>N/A</td>
                                     </tr>
                                 </tbody>
                             </Table>
